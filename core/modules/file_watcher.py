@@ -2,12 +2,12 @@ import sys
 import time
 
 from watchdog.observers import Observer
-from .events import ImagesEventHandler
+from .events import FileEventHandler
 
-class ImagesWatcher:
+class FileWatcher:
     def __init__(self, src_path):
         self.__src_path = src_path
-        self.__event_handler = ImagesEventHandler()
+        self.__event_handler = FileEventHandler()
         self.__event_observer = Observer()
 
     def run(self):

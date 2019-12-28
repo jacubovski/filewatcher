@@ -1,4 +1,6 @@
 from ftplib import FTP
+from core.modules.utils import make_filename_ftp
+
 
 class ConnectionFTP:
 
@@ -6,16 +8,16 @@ class ConnectionFTP:
         self.host = host
         self.username = username
         self.password = password
+        self.session = self.open_session()
     
-    def session(self):
-        return FTP(host=self.host)        
+    def open_session(self):
+        return FTP(host=self.host, 
+                   user=self.username, 
+                   passwd=self.password)
 
+    def upload_file(self, file_name, path, file):
+        self.session.cwd(path)
+        self.session.storbinary(f"STOR {file_name}", file)
 
-if __name__ == '__main__':
-    conn = ConnectionFTP('177.53.143.13',
-                         'integracao',
-                         '@j19801980***')
-
-    session = conn.session()
-
-    session.quit()
+    def close(self):
+        self.session.quit()
